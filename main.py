@@ -1,20 +1,23 @@
 #!/usr/bin/env python3
-"""The 3AM Fridge Text (make.fun).
+"""The 3AM Fridge Text — a make.fun one-line entry.
 
-Writes the entry -- one line a smart fridge would text its owner at 3am, written to /output/entry.txt by a small Python program. -- to /output/entry.txt,
-where the sealed scorer reads it.
+The program writes the entry text to /output/entry.txt, where the
+competition's sealed scorer reads it.
 """
 
-import os
+from pathlib import Path
 
-TEXT = 'It is 3am. The leftover pizza is still here. I have been awake all night thinking about it, and frankly, so should you.'
+ENTRY = "It's 3am. The leftover pizza has formed a union and is demanding to be eaten before it expires."
+
+OUTPUT = Path("/output/entry.txt")
 
 
-def main():
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(TEXT)
+def write_entry() -> None:
+    text = ENTRY.strip()
+    assert text, "entry text must not be blank"
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT.write_text(text, encoding="utf-8")
 
 
 if __name__ == "__main__":
-    main()
+    write_entry()
